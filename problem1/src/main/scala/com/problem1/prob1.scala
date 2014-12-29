@@ -14,7 +14,6 @@
 
 import scala.collection
 import scala.io.Source._
-import java.io.FileNotFoundException
 
 object prob1 {
 

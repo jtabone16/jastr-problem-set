@@ -11,7 +11,6 @@
 
 import scala.collection
 import scala.io.Source._
-import java.io.FileNotFoundException
 
 case class Tree(value: Int, left: Option[Tree] = None, right: Option[Tree] = None){
     def inorder(t:Tree => Unit){
@@ -28,15 +27,15 @@ object prob3 {
 
   def main(args: Array[String]) {
 
-    var input = readLine("Which nth value would you like to find? \n")
+    var n = readLine("Which nth value would you like to find? \n")
     val tree1 = new Tree(30, 
         Some(Tree(20, 
           Some(Tree(10)))),
         Some(Tree(40,
-          Some(Tree(15)))))
+          Some(Tree(35)))))
 
 
-    nthNum = findNthGreatestValueInBST(tree1, input.toInt)
+    nthNum = findNthGreatestValueInBST(tree1, n.toInt)
 
     if (nthNum < 0 || nthNum+1 > inOrderList.length){
       println ("Nth value is out of range!")
@@ -50,19 +49,15 @@ object prob3 {
   def findNthGreatestValueInBST(tree: Tree, n: Int) : Int = {
 
     List("Inorder traversal results in: " -> tree.inorder _) foreach {
-      case (name, func) =>
-        val s = new StringBuilder(name)
-        func(t => s ++= t.value.toString + " ")
-        func(t => inOrderList = inOrderList:+ t.value)
+      case (inorder, f) =>
+        val s = new StringBuilder(inorder)
+        f(t => s ++= t.value.toString + " ")
+        f(t => inOrderList = inOrderList:+ t.value)
         println(s)
     }
 
-    inOrderList = inOrderList.sorted
-
-    println("Sorted list: " + inOrderList)
-
-
-    return n-1
-
+    return n-1 //return n-1 rather than the nth number since we're dealing 
+               //with a list (index starts at 0) and so that I can see if 
+               //user input is out of range
   }
 }
